@@ -4,7 +4,13 @@
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
+static const int topbar             = 1;
+static const char *mutecmd[]        = { "amixer", "-q", "set", "Master", "toggle", NULL }; /* Mute Speakers */
+static const char *volupcmd[]       = { "amixer", "-q", "set", "Master", "5%+", "unmute", NULL }; /* Volume up */
+static const char *voldowncmd[]     = { "amixer", "-q", "set", "Master", "5%-", "unmute", NULL }; /* Volume down */
+static const char *miccmd[]         = { "amixer", "-q", "set", "Capture", "toggle", NULL }; /* Mute Microphone */
+static const char *brupcmd[]        = { "sudo", "xbacklight", "-inc", "10", NULL };
+static const char *brdowncmd[]      = { "sudo", "xbacklight", "-dec", "10", NULL };        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=12" };
 static const char dmenufont[]       = "monospace:size=12";
 static const char col_gray1[]       = "#222222";
@@ -61,6 +67,12 @@ static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ 0,    	    XF86XK_AudioMute,      spawn,          {.v = mutecmd}},
+	{ 0,	     XF86XK_AudioLowerVolume,      spawn,          {.v = voldowncmd}},
+	{ 0,	     XF86XK_AudioRaiseVolume,      spawn,          {.v = volupcmd}},
+	{ 0,	         XF86XK_AudioMicMute,      spawn,          {.v = miccmd}},
+	{ 0,	      XF86XK_MonBrightnessUp,      spawn,          {.v = brupcmd}},
+	{ 0,	    XF86XK_MonBrightnessDown,      spawn,          {.v = brdowncmd}},
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY, 	                XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ControlMask|ShiftMask, XK_b,      togglebar,      {0} },
@@ -93,7 +105,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_x,      quit,           {0} },
 };
 
 /* button definitions */
